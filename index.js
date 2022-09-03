@@ -32,6 +32,16 @@ app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/room", roomRoute);
 
+app.use((err, req, res, next)=>{
+    const errorStatus = err.status || 500
+    const errorMessage = err.message || "Something went wrong bimch!"
+    return res.status(errorStatus).json({
+        success: false,
+        status: errorStatus,
+        message: errorMessage,
+    })
+})
+
 app.listen(8000, () => {
     connect()
     console.log("Connected to backend...")
